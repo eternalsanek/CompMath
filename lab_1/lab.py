@@ -33,7 +33,16 @@ def find_all_roots(function, start, end, num = 1000):
     for i in range(len(x_values) - 1):
         if (y_values[i] * y_values[i + 1] < 0):
             root = fsolve(function, x_values[i])[0]
-            all_roots.append(root)
+
+            # Проверка на дубликаты
+            same_root = False
+            for root_exist in all_roots:
+                if abs(root - root_exist) < 1e-9:
+                    same_root = True
+                    break
+
+            if not same_root and start <= root <= end:
+                all_roots.append(root)
 
     return all_roots
 
